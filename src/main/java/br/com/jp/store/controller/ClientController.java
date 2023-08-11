@@ -5,6 +5,8 @@ import br.com.jp.store.business.ClientBusiness;
 import br.com.jp.store.dto.AddressDTO;
 import br.com.jp.store.dto.ClientDTO;
 import br.com.jp.store.repository.AddressRepository;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/client")
+//@Api(description = "Endpoints to manager of Clients ")
 public class ClientController {
 
     @Autowired
@@ -32,6 +35,7 @@ public class ClientController {
 
 
     @GetMapping
+//    @ApiOperation(httpMethod = "GET", value = "List all Clients", notes = "List Clients of Store", response = ClientDTO.class)
     public ResponseEntity<List<ClientDTO>> findAll(){
         var clints = clientBusiness.findAll();
         return ResponseEntity.ok(clints);
