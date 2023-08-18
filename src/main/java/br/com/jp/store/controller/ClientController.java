@@ -5,8 +5,9 @@ import br.com.jp.store.business.ClientBusiness;
 import br.com.jp.store.dto.AddressDTO;
 import br.com.jp.store.dto.ClientDTO;
 import br.com.jp.store.repository.AddressRepository;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/client")
-//@Api(description = "Endpoints to manager of Clients ")
+@Api(description = "Endpoints to management of Clients ")
 public class ClientController {
 
     @Autowired
@@ -35,7 +36,7 @@ public class ClientController {
 
 
     @GetMapping
-//    @ApiOperation(httpMethod = "GET", value = "List all Clients", notes = "List Clients of Store", response = ClientDTO.class)
+    @ApiOperation(httpMethod = "GET", value = "List all Clients", notes = "List Clients of Store", response = ClientDTO.class)
     public ResponseEntity<List<ClientDTO>> findAll(){
         var clints = clientBusiness.findAll();
         return ResponseEntity.ok(clints);
@@ -43,7 +44,7 @@ public class ClientController {
 
     @GetMapping("/{idClient}")
     public ResponseEntity<ClientDTO> findById(@PathVariable long idClient){
-        var clientId =clientBusiness.findById(idClient);
+        var clientId = clientBusiness.findById(idClient);
         if(clientId == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -67,13 +68,13 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> createNewBuyer(@RequestBody ClientDTO clientDTO){
+    public ResponseEntity<ClientDTO> createNewBuyer(@Valid @RequestBody ClientDTO clientDTO){
         var clientSave = clientBusiness.create(clientDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(clientSave);
     }
 
     @PutMapping("/{id}")
-    public ClientDTO updateBuyer(@PathVariable long id, @RequestBody ClientDTO clientDTO){
+    public ClientDTO updateBuyer(@PathVariable long id, @Valid @RequestBody ClientDTO clientDTO){
         return clientBusiness.update(id, clientDTO);
     }
 
@@ -88,19 +89,21 @@ public class ClientController {
     }
 
     @PostMapping("{idBuyer}/new-address")
-    public AddressDTO createNewAddress(@PathVariable long idBuyer, @RequestBody AddressDTO addressDTO){
+    public AddressDTO createNewAddress(@PathVariable long idBuyer, @Valid @RequestBody AddressDTO addressDTO){
         return addressBusiness.create(idBuyer, addressDTO);
     }
 
     @PutMapping("/{idBuyer}/address/{idAddress}")
     public AddressDTO updateAddressBuyer(@PathVariable long idBuyer,
                                          @PathVariable long idAddress,
+                                         @Valid
                                          @RequestBody AddressDTO addressDTO){
         return addressBusiness.updateAddressBuyer(idBuyer, idAddress, addressDTO);
     }
 
     @DeleteMapping("/{idBuyer}/address/{idAddress}")
-    public void deleteAddressById(@PathVariable long idBuyer, @PathVariable long idAddress){
+    public ResponseEntity<?> deleteAddressById(@PathVariable long idBuyer, @PathVariable long idAddress){
         addressBusiness.delete(idBuyer, idAddress);
+        return ResponseEntity.noContent().build();
     }
 }

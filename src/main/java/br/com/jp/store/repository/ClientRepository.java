@@ -18,9 +18,9 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     List<ClientDTO> findAllByProfileTrue();
 
     @Query("select b from Client b where b.firstName like %?1% or b.lastName like %?2%")
-    List<ClientDTO> findUsersByFirstNameOrLastName(@Param("firstName")String fisrtName, @Param("lastName")String lastName);
+    List<ClientDTO> findUsersByFirstNameOrLastName(@Param("firstName")String firstName, @Param("lastName")String lastName);
 
     @Query("select b from Client b where b.document like %?1%")
-    List<ClientDTO> findUserByDocument(@Param("document")String document);
+    List<ClientDTO> findClientsByDocument(@Param("document")String document);
 
 }

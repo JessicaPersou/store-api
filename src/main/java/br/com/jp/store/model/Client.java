@@ -1,6 +1,8 @@
 package br.com.jp.store.model;
 import br.com.jp.store.enums.ProfileType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Client {
     private long id;
 
     @Column(name = "first_name")
+    @NotBlank(message = "Campo não pode ser vazio ou nulo")
     private String firstName;
 
     @Column(name = "last_name")
@@ -29,13 +32,16 @@ public class Client {
 
     private Date birthdate;
 
+    @NotBlank(message = "Insira um documento válido")
     @Column(unique = true)
     private String document;
 
     private String phone;
 
+    @NotBlank(message = "Campo não pode ser vazio ou nulo")
     private String email;
 
+    @NotBlank(message = "Campo não pode ser vazio ou nulo")
     private String password;
 
     @Column(name = "profile_type")

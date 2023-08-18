@@ -45,7 +45,7 @@ public class ClientBusinessImpl implements ClientBusiness {
     }
 
     public List<ClientDTO> findUserByDocument(String document){
-        return clientRepository.findUserByDocument(document);
+        return clientRepository.findClientsByDocument(document);
     }
 
     public List<ClientDTO> findUsersByFirstNameOrLastName(String firstName, String lastName){
